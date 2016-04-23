@@ -8,7 +8,6 @@
 
 import UIKit
 import SpriteKit
-import CoreGraphics
 
 class ViewController: UIViewController {
 
@@ -18,23 +17,19 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let spriteView = view as! SKView // casting
-    spriteView.showsDrawCount = true
-    spriteView.showsNodeCount = true
-    spriteView.showsFPS = true
-  }
+    let skView = view as! SKView // casting, it can be nil at some point and i accept that
+    skView.showsDrawCount = true
+    skView.showsNodeCount = true
+    skView.showsFPS = true
 
-  override func viewWillAppear(animated: Bool) {
-    let hello = HelloScene(size: CGSizeMake(768,1024)) // view.bounds.size
-    let spriteView = view as! SKView // casting
-    spriteView.presentScene(hello)
+    let scene = SpaceshipScene(size: view.bounds.size)//HelloScene(size: view.bounds.size)
+    skView.presentScene(scene)
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-
 
 }
 

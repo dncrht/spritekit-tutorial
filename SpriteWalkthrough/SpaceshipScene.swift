@@ -20,17 +20,35 @@ class SpaceshipScene: SKScene {
     }
   }
 
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    /*var point: CGPoint!
+    for touch in touches {
+      point = touch.locationInView(self.view)
+    }*/
+    var point = touches.first!.locationInView(self.view)
+    debugPrint(point)
+    point.y = self.frame.size.height - point.y
+
+    let helloNode: SKNode = self.childNodeWithName("spaceship2")!
+    let moveUp = SKAction.moveTo(point, duration: 0.75)
+    helloNode.runAction(SKAction.sequence([moveUp]))
+  }
+
   func createSceneContents() {
     self.backgroundColor = SKColor.blackColor()
-    let spaceship = newSpaceship()
+    let spaceship = SpaceShip()
     spaceship.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidX(self.frame) - 150)
     self.addChild(spaceship)
 
-    let makeRocks = SKAction.sequence([
+    let spaceship2 = SpaceShip(action: false)
+    spaceship2.position = CGPointMake(0, 0)
+    self.addChild(spaceship2)
+
+    /*let makeRocks = SKAction.sequence([
       SKAction.performSelector(addRock, onTarget: self),
       SKAction.waitForDuration(0.10, withRange: 0.15)
       ])
-    runAction(SKAction.repeatActionForever(makeRocks))
+    runAction(SKAction.repeatActionForever(makeRocks))*/
   }
 
   func skRandf() -> CGFloat {
@@ -49,43 +67,5 @@ class SpaceshipScene: SKScene {
     rock.physicsBody!.usesPreciseCollisionDetection = true
     addChild(rock)
     return rock
-  }
-
-  func newLight() -> SKSpriteNode {
-    let light = SKSpriteNode(color: SKColor.yellowColor(), size:CGSizeMake(8,8))
-
-    let blink = SKAction.sequence([
-      SKAction.fadeOutWithDuration(0.25),
-      SKAction.fadeInWithDuration(0.25)
-      ])
-    let blinkForever = SKAction.repeatActionForever(blink)
-    light.runAction(blinkForever)
-
-    return light;
-  }
-
-  func newSpaceship() -> SKSpriteNode {
-    let hull = SKSpriteNode(color: SKColor.grayColor(), size: CGSizeMake(64,32))
-
-    let light1 = newLight()
-    light1.position = CGPointMake(-28.0, 6.0)
-    hull.addChild(light1)
-
-    let light2 = newLight()
-    light2.position = CGPointMake(28.0, 6.0)
-    hull.addChild(light2)
-
-    hull.physicsBody = SKPhysicsBody(rectangleOfSize: hull.size) // añade gravedad!!
-    hull.physicsBody!.dynamic = false
-
-    let hover = SKAction.sequence([
-      SKAction.waitForDuration(1.0),
-      SKAction.moveByX(100, y: 50.0, duration: 1.0),
-      SKAction.waitForDuration(1.0),
-      SKAction.moveByX(-100.0, y: -50, duration: 1.0)
-      ])
-    hull.runAction(SKAction.repeatActionForever(hover))
-
-    return hull
   }
 }
