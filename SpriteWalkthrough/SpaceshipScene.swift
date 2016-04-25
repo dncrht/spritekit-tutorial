@@ -37,11 +37,11 @@ class SpaceshipScene: SKScene {
     spaceship.position = CGPointMake(0, 0)
     self.addChild(spaceship)
 
-    /*let makeRocks = SKAction.sequence([
-      SKAction.performSelector(addRock, onTarget: self),
+    let makeRocks = SKAction.sequence([
+      SKAction.performSelector(#selector(SpaceshipScene.addRock), onTarget: self),
       SKAction.waitForDuration(0.10, withRange: 0.15)
       ])
-    runAction(SKAction.repeatActionForever(makeRocks))*/
+    runAction(SKAction.repeatActionForever(makeRocks))
   }
 
   func skRandf() -> CGFloat {
@@ -54,7 +54,7 @@ class SpaceshipScene: SKScene {
 
   func addRock() -> SKSpriteNode {
     let rock = SKSpriteNode(color: SKColor.brownColor(), size:CGSizeMake(8,8))
-    rock.position = CGPointMake(skRand(0, high: self.size.width), self.size.height-50)
+    rock.position = CGPointMake(skRand(0, high: self.size.width), self.size.height - 50)
     rock.name = "rock"
     rock.physicsBody = SKPhysicsBody(rectangleOfSize: rock.size)
     rock.physicsBody!.usesPreciseCollisionDetection = true
@@ -74,6 +74,14 @@ class SpaceshipScene: SKScene {
     debugPrint(point)
     point.y = self.frame.size.height - point.y
     return point
+  }
+
+  override func didSimulatePhysics() {
+    self.enumerateChildNodesWithName("rock", usingBlock: { (node: SKNode, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+      if node.position.y < 0 {
+        node.removeFromParent()
+      }
+    })
   }
 
 }
