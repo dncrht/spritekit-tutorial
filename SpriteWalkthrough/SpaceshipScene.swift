@@ -39,25 +39,13 @@ class SpaceshipScene: SKScene {
 
     let makeRocks = SKAction.sequence([
       SKAction.performSelector(#selector(SpaceshipScene.addRock), onTarget: self),
-      SKAction.waitForDuration(0.10, withRange: 0.15)
+      SKAction.waitForDuration(2, withRange: 2)
       ])
     runAction(SKAction.repeatActionForever(makeRocks))
   }
 
-  func skRandf() -> CGFloat {
-    return CGFloat(rand()) / CGFloat(RAND_MAX)
-  }
-
-  func skRand(low: CGFloat, high: CGFloat) -> CGFloat {
-    return skRandf() * (high - low) + low;
-  }
-
   func addRock() -> SKSpriteNode {
-    let rock = SKSpriteNode(color: SKColor.brownColor(), size:CGSizeMake(8,8))
-    rock.position = CGPointMake(skRand(0, high: self.size.width), self.size.height - 50)
-    rock.name = "rock"
-    rock.physicsBody = SKPhysicsBody(rectangleOfSize: rock.size)
-    rock.physicsBody!.usesPreciseCollisionDetection = true
+    let rock = Rock(self.size)
     addChild(rock)
     return rock
   }

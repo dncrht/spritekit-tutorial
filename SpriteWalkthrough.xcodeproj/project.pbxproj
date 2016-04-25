@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3307EA441CCED6C500EC701B /* Rock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3307EA431CCED6C500EC701B /* Rock.swift */; };
 		334EB42F1CBDA765002BE97F /* SpaceshipScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334EB42E1CBDA765002BE97F /* SpaceshipScene.swift */; };
 		338644641CBC58E60013F17E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338644631CBC58E60013F17E /* AppDelegate.swift */; };
 		338644661CBC58E60013F17E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338644651CBC58E60013F17E /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3307EA431CCED6C500EC701B /* Rock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rock.swift; sourceTree = "<group>"; };
 		334EB42E1CBDA765002BE97F /* SpaceshipScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpaceshipScene.swift; sourceTree = "<group>"; };
 		338644601CBC58E60013F17E /* SpriteWalkthrough.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteWalkthrough.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		338644631CBC58E60013F17E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				338644651CBC58E60013F17E /* ViewController.swift */,
 				338644751CBC5A620013F17E /* HelloScene.swift */,
 				334EB42E1CBDA765002BE97F /* SpaceshipScene.swift */,
+				3307EA431CCED6C500EC701B /* Rock.swift */,
 				338644671CBC58E60013F17E /* Main.storyboard */,
 				3386446A1CBC58E60013F17E /* Assets.xcassets */,
 				3386446C1CBC58E60013F17E /* LaunchScreen.storyboard */,
@@ -144,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3307EA441CCED6C500EC701B /* Rock.swift in Sources */,
 				338644761CBC5A620013F17E /* HelloScene.swift in Sources */,
 				334EB42F1CBDA765002BE97F /* SpaceshipScene.swift in Sources */,
 				33B9C09B1CCAE82F00D92EBA /* SpaceShip.swift in Sources */,

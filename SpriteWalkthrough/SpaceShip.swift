@@ -14,7 +14,7 @@ class SpaceShip: SKSpriteNode {
   static var index = 1
 
   init(action: Bool = true) {
-    super.init(texture: nil, color: SKColor.grayColor(), size: CGSizeMake(64,32))
+    super.init(texture: nil, color: SKColor.grayColor(), size: CGSizeMake(64, 32))
 
     self.name = "spaceship\(SpaceShip.index)"
     SpaceShip.index += 1
