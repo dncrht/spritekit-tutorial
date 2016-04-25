@@ -13,6 +13,8 @@ class SpaceshipScene: SKScene {
 
   var contentCreated = false
 
+  let heroSpeed = 480.0
+
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
       createSceneContents()
@@ -21,17 +23,12 @@ class SpaceshipScene: SKScene {
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    /*var point: CGPoint!
-    for touch in touches {
-      point = touch.locationInView(self.view)
-    }*/
-    var point = touches.first!.locationInView(self.view)
-    debugPrint(point)
-    point.y = self.frame.size.height - point.y
+    let hero: SKNode = self.childNodeWithName("spaceship2")!
 
-    let helloNode: SKNode = self.childNodeWithName("spaceship2")!
-    let moveUp = SKAction.moveTo(point, duration: 0.75)
-    helloNode.runAction(SKAction.sequence([moveUp]))
+    let point = touchPoint2OpenGl(touches.first!)
+
+    hero.removeAllActions()
+    hero.runAction(SKAction.moveTo(point, duration: distance(point, node: hero) / heroSpeed))
   }
 
   func createSceneContents() {
@@ -68,4 +65,19 @@ class SpaceshipScene: SKScene {
     addChild(rock)
     return rock
   }
+
+  func distance(point: CGPoint, node: SKNode) -> Double {
+    return Double(sqrtf(
+      pow(Float(point.x) - Float(node.position.x), 2) +
+        pow(Float(point.y) - Float(node.position.y), 2)
+      ))
+  }
+
+  func touchPoint2OpenGl(touch: UITouch) -> CGPoint {
+    var point = touch.locationInView(self.view)
+    debugPrint(point)
+    point.y = self.frame.size.height - point.y
+    return point
+  }
+
 }
