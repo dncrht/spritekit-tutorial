@@ -15,9 +15,6 @@ class SpaceShip: SKSpriteNode {
 
   init(action: Bool = true) {
     super.init(texture: nil, color: SKColor.grayColor(), size: CGSizeMake(64,32))
-    /*super.init()
-    self.color = SKColor.grayColor()
-    self.size = CGSizeMake(32, 64)*/
 
     self.name = "spaceship\(SpaceShip.index)"
     SpaceShip.index += 1
@@ -30,19 +27,6 @@ class SpaceShip: SKSpriteNode {
     let light2 = newLight()
     light2.position = CGPointMake(28.0, 6.0)
     self.addChild(light2)
-
-    self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size) // añade gravedad!!
-    self.physicsBody!.dynamic = false
-
-    if action {
-      let hover = SKAction.sequence([
-        SKAction.waitForDuration(1.0),
-        SKAction.moveByX(100, y: 50.0, duration: 1.0),
-        SKAction.waitForDuration(1.0),
-        SKAction.moveByX(-100.0, y: -50, duration: 1.0)
-        ])
-      self.runAction(SKAction.repeatActionForever(hover))
-    }
   }
   
   required init?(coder aDecoder: NSCoder) {

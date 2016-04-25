@@ -23,7 +23,7 @@ class SpaceshipScene: SKScene {
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    let hero: SKNode = self.childNodeWithName("spaceship2")!
+    let hero: SKNode = self.childNodeWithName("spaceship1")!
 
     let point = touchPoint2OpenGl(touches.first!)
 
@@ -34,12 +34,8 @@ class SpaceshipScene: SKScene {
   func createSceneContents() {
     self.backgroundColor = SKColor.blackColor()
     let spaceship = SpaceShip()
-    spaceship.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidX(self.frame) - 150)
+    spaceship.position = CGPointMake(0, 0)
     self.addChild(spaceship)
-
-    let spaceship2 = SpaceShip(action: false)
-    spaceship2.position = CGPointMake(0, 0)
-    self.addChild(spaceship2)
 
     /*let makeRocks = SKAction.sequence([
       SKAction.performSelector(addRock, onTarget: self),
