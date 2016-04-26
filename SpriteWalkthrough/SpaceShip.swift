@@ -11,14 +11,9 @@ import CoreGraphics
 
 class SpaceShip: SKSpriteNode {
 
-  static var index = 1
-
   init(action: Bool = true) {
     super.init(texture: nil, color: SKColor.grayColor(), size: CGSizeMake(64, 32))
-
-    self.name = "spaceship\(SpaceShip.index)"
-    SpaceShip.index += 1
-    print("created \(self.name)")
+    self.name = "spaceship"
 
     let light1 = newLight()
     light1.position = CGPointMake(-28.0, 6.0)

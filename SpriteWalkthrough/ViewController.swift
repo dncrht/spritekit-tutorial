@@ -17,12 +17,13 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let skView = view as! SKView // casting, it can be nil at some point and i accept that
+    let skView = view as! SKView
     skView.showsDrawCount = true
     skView.showsNodeCount = true
     skView.showsFPS = true
 
     let scene = SpaceshipScene(size: view.bounds.size)//HelloScene(size: view.bounds.size)
+    scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
     skView.presentScene(scene)
   }
 

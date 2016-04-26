@@ -13,7 +13,7 @@ class SpaceshipScene: SKScene {
 
   var contentCreated = false
 
-  let heroSpeed = 480.0
+  let heroSpeed = 680.0
 
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
@@ -23,10 +23,10 @@ class SpaceshipScene: SKScene {
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    let hero: SKNode = self.childNodeWithName("spaceship1")!
+    let hero: SKNode = self.childNodeWithName("spaceship")!
 
     let point = touchPoint2OpenGl(touches.first!)
-
+    print("POS \(point.x), \(point.y)")
     hero.removeAllActions()
     hero.runAction(SKAction.moveTo(point, duration: distance(point, node: hero) / heroSpeed))
   }
@@ -61,15 +61,9 @@ class SpaceshipScene: SKScene {
     var point = touch.locationInView(self.view)
     debugPrint(point)
     point.y = self.frame.size.height - point.y
+    point.y = point.y - self.frame.size.height / 2
+    point.x = point.x - self.frame.size.width / 2
     return point
-  }
-
-  override func didSimulatePhysics() {
-    self.enumerateChildNodesWithName("rock", usingBlock: { (node: SKNode, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
-      if node.position.y < 0 {
-        node.removeFromParent()
-      }
-    })
   }
 
 }
