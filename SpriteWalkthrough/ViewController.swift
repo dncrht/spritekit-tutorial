@@ -16,6 +16,8 @@ class ViewController: UIViewController {
   }
 
   override func viewDidLoad() {
+    srand48(Int(NSDate().timeIntervalSinceReferenceDate))
+
     super.viewDidLoad()
     let skView = view as! SKView
     skView.showsDrawCount = true

@@ -36,15 +36,7 @@ class Rock: SKSpriteNode {
     return CGPoint(x: (cos(phi) * factor * radius), y: (sin(phi) * factor * radius))
   }
 
-  func opposite() {
-
-  }
-
-  func skRandf() -> CGFloat {
-    return CGFloat(rand()) / CGFloat(RAND_MAX)
-  }
-
   func skRand(low: CGFloat = 0, high: CGFloat = 1) -> CGFloat {
-    return skRandf() * (high - low) + low;
+    return CGFloat(drand48()) * (high - low) + low;
   }
 }
