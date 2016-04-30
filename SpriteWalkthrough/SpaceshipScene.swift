@@ -15,7 +15,7 @@ class SpaceshipScene: SKScene {
 
   let heroSpeed = 680.0
   let myWorld = SKNode()
-  let cam = SKCameraNode()
+  let cam = SKNode()//SKCameraNode()
 
   let x = 0
   let y = 0
@@ -41,9 +41,10 @@ class SpaceshipScene: SKScene {
     }
   }
 
-  override func didFinishUpdate() {
-    centerOnNode(cam)
-  }
+  /*override func didFinishUpdate() {
+    let cameraPositionInScene = cam.scene!.convertPoint(cam.position, fromNode: cam.parent!)
+    //cam.parent!.position = CGPointMake(cam.parent!.position.x - cameraPositionInScene.x, cam.parent!.position.y - cameraPositionInScene.y)
+  }*/
 
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
@@ -78,11 +79,11 @@ class SpaceshipScene: SKScene {
 
     //cam.scaleAsPoint = CGPoint(x: 0.25, y: 0.25) //the scale sets the zoom level of the camera on the given position
 
-    self.camera = cam //set the scene's camera to reference cam
+    //self.camera = cam //set the scene's camera to reference cam
     self.addChild(cam) //make the cam a childElement of the scene itself.
 
     //position the camera on the gamescene.
-    cam.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+    cam.position = CGPoint(x: 0, y: 0) //x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
 
     let w = self.size.width / 2
     let h = self.size.height / 3
