@@ -15,28 +15,39 @@ class SpaceshipScene: SKScene {
 
   let heroSpeed = 680.0
 
-  let x = 0
-  let y = 0
+  var cameraPosition = CGPointMake(0, 0)
 
   let map = [[1,1,1,1,1,1], [1,0,1,0,1,0], [0,1,0,1,0,1], [1,1,1,1,1,1]]
 
   func respondToSwipeGesture(gesture: UIGestureRecognizer) {
 
+    let old = CGPoint(x: cameraPosition.x, y: cameraPosition.y)
+
+    var x: CGFloat = 0
+    var y: CGFloat = 0
+
     if let swipeGesture = gesture as? UISwipeGestureRecognizer {
 
       switch swipeGesture.direction {
       case UISwipeGestureRecognizerDirection.Right:
-        print("Swiped right")
+        x = 100
       case UISwipeGestureRecognizerDirection.Down:
-        print("Swiped down")
+        y = 100
       case UISwipeGestureRecognizerDirection.Left:
-        print("Swiped left")
+        x = -100
       case UISwipeGestureRecognizerDirection.Up:
-        print("Swiped up")
+        y = -100
       default:
         break
       }
     }
+
+    cameraPosition.x += x
+    cameraPosition.y += y
+
+    let camera = self.childNodeWithName("camera")!
+    camera.removeAllActions()
+    camera.runAction(SKAction.moveTo(cameraPosition, duration: distance(cameraPosition, destination: old) / heroSpeed))
   }
 
   override func didMoveToView(view: SKView) {
@@ -53,25 +64,32 @@ class SpaceshipScene: SKScene {
     }
   }
 
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {return
+    let old = CGPoint(x: cameraPosition.x, y: cameraPosition.y)
+
     let firstTouch = touches.first
     let point = (firstTouch?.locationInNode(self))!
 
+    print("\(point.x) \(point.y)")
+    cameraPosition.x += -point.x
+    cameraPosition.y += -point.y
+
     let camera = self.childNodeWithName("camera")!
     camera.removeAllActions()
-    camera.runAction(SKAction.moveTo(point, duration: distance(point, node: camera) / heroSpeed))
+    camera.runAction(SKAction.moveTo(cameraPosition, duration: distance(cameraPosition, destination: old) / heroSpeed))
   }
 
   func createSceneContents() {
     let camera = SKNode()
     camera.name = "camera"
+    camera.position = cameraPosition
     self.addChild(camera)
 
     let w = self.size.width / 2
     let h = self.size.height / 3
 
     for y in 0...3 {
-      for x in 0...1 {
+      for x in 0...5 {
         if map[y][x] > 0 {
           let node = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(w, h))
           node.position = CGPoint(x: CGFloat(x) * w, y: CGFloat(y) * h)
@@ -103,6 +121,13 @@ class SpaceshipScene: SKScene {
     return Double(sqrtf(
       pow(Float(point.x) - Float(node.position.x), 2) +
         pow(Float(point.y) - Float(node.position.y), 2)
+      ))
+  }
+
+  func distance(origin: CGPoint, destination: CGPoint) -> Double {
+    return Double(sqrtf(
+      pow(Float(origin.x) - Float(destination.x), 2) +
+        pow(Float(origin.y) - Float(destination.y), 2)
       ))
   }
 
