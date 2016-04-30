@@ -15,23 +15,67 @@ class SpaceshipScene: SKScene {
 
   let heroSpeed = 680.0
 
+  let x = 0
+  let y = 0
+
+  let map = [[1,1,1,1,1,1], [1,0,1,0,1,0], [0,1,0,1,0,1], [1,1,1,1,1,1]]
+
+  func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+
+    if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+
+      switch swipeGesture.direction {
+      case UISwipeGestureRecognizerDirection.Right:
+        print("Swiped right")
+      case UISwipeGestureRecognizerDirection.Down:
+        print("Swiped down")
+      case UISwipeGestureRecognizerDirection.Left:
+        print("Swiped left")
+      case UISwipeGestureRecognizerDirection.Up:
+        print("Swiped up")
+      default:
+        break
+      }
+    }
+  }
+
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
       createSceneContents()
       self.contentCreated = true
     }
+
+    let directions: [UISwipeGestureRecognizerDirection] = [.Right, .Left, .Up, .Down]
+    for direction in directions {
+      let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(SpaceshipScene.respondToSwipeGesture(_:)))
+      swipeGesture.direction = direction
+      view.addGestureRecognizer(swipeGesture)
+    }
   }
 
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  /*override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     let hero: SKNode = self.childNodeWithName("spaceship")!
 
     let point = touchPoint2OpenGl(touches.first!)
     print("POS \(point.x), \(point.y)")
     hero.removeAllActions()
     hero.runAction(SKAction.moveTo(point, duration: distance(point, node: hero) / heroSpeed))
-  }
+  }*/
 
   func createSceneContents() {
+    let w = self.size.width / 2
+    let h = self.size.height / 3
+
+    for y in 0...3 {
+      for x in 0...1 {
+        if map[y][x] > 0 {
+          let node = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(w, h))
+          node.position = CGPoint(x: CGFloat(x) * w, y: CGFloat(y) * h)
+          self.addChild(node)
+        }
+      }
+    }
+
     self.backgroundColor = SKColor.blackColor()
     let spaceship = SpaceShip()
     spaceship.position = CGPointMake(0, 0)
