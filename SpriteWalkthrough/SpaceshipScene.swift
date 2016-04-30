@@ -14,8 +14,6 @@ class SpaceshipScene: SKScene {
   var contentCreated = false
 
   let heroSpeed = 680.0
-  let myWorld = SKNode()
-  let cam = SKNode()//SKCameraNode()
 
   let x = 0
   let y = 0
@@ -41,11 +39,6 @@ class SpaceshipScene: SKScene {
     }
   }
 
-  /*override func didFinishUpdate() {
-    let cameraPositionInScene = cam.scene!.convertPoint(cam.position, fromNode: cam.parent!)
-    //cam.parent!.position = CGPointMake(cam.parent!.position.x - cameraPositionInScene.x, cam.parent!.position.y - cameraPositionInScene.y)
-  }*/
-
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
       createSceneContents()
@@ -61,29 +54,18 @@ class SpaceshipScene: SKScene {
   }
 
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-    /*
-    let hero: SKNode = self.childNodeWithName("spaceship")!
-
-    let point = touchPoint2OpenGl(touches.first!)
-    print("POS \(point.x), \(point.y)")
-    hero.removeAllActions()
-    hero.runAction(SKAction.moveTo(point, duration: distance(point, node: hero) / heroSpeed))
- */
     let firstTouch = touches.first
-    let location = (firstTouch?.locationInNode(self))!
-    cam.position = location
+    let point = (firstTouch?.locationInNode(self))!
+
+    let camera = self.childNodeWithName("camera")!
+    camera.removeAllActions()
+    camera.runAction(SKAction.moveTo(point, duration: distance(point, node: camera) / heroSpeed))
   }
 
   func createSceneContents() {
-    addChild(myWorld)
-
-    //cam.scaleAsPoint = CGPoint(x: 0.25, y: 0.25) //the scale sets the zoom level of the camera on the given position
-
-    //self.camera = cam //set the scene's camera to reference cam
-    self.addChild(cam) //make the cam a childElement of the scene itself.
-
-    //position the camera on the gamescene.
-    cam.position = CGPoint(x: 0, y: 0) //x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+    let camera = SKNode()
+    camera.name = "camera"
+    self.addChild(camera)
 
     let w = self.size.width / 2
     let h = self.size.height / 3
@@ -93,7 +75,7 @@ class SpaceshipScene: SKScene {
         if map[y][x] > 0 {
           let node = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(w, h))
           node.position = CGPoint(x: CGFloat(x) * w, y: CGFloat(y) * h)
-          cam.addChild(node)
+          camera.addChild(node)
         }
       }
     }
@@ -112,7 +94,8 @@ class SpaceshipScene: SKScene {
 
   func addRock() -> SKSpriteNode {
     let rock = Rock(self.size)
-    cam.addChild(rock)
+    let camera = self.childNodeWithName("camera")!
+    camera.addChild(rock)
     return rock
   }
 
