@@ -14,6 +14,8 @@ class SpaceshipScene: SKScene {
   var contentCreated = false
 
   let heroSpeed = 680.0
+  let myWorld = SKNode()
+  let cam = SKCameraNode()
 
   let x = 0
   let y = 0
@@ -39,6 +41,10 @@ class SpaceshipScene: SKScene {
     }
   }
 
+  override func didFinishUpdate() {
+    centerOnNode(cam)
+  }
+
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
       createSceneContents()
@@ -53,16 +59,31 @@ class SpaceshipScene: SKScene {
     }
   }
 
-  /*override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    /*
     let hero: SKNode = self.childNodeWithName("spaceship")!
 
     let point = touchPoint2OpenGl(touches.first!)
     print("POS \(point.x), \(point.y)")
     hero.removeAllActions()
     hero.runAction(SKAction.moveTo(point, duration: distance(point, node: hero) / heroSpeed))
-  }*/
+ */
+    let firstTouch = touches.first
+    let location = (firstTouch?.locationInNode(self))!
+    cam.position = location
+  }
 
   func createSceneContents() {
+    addChild(myWorld)
+
+    //cam.scaleAsPoint = CGPoint(x: 0.25, y: 0.25) //the scale sets the zoom level of the camera on the given position
+
+    self.camera = cam //set the scene's camera to reference cam
+    self.addChild(cam) //make the cam a childElement of the scene itself.
+
+    //position the camera on the gamescene.
+    cam.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+
     let w = self.size.width / 2
     let h = self.size.height / 3
 
@@ -71,7 +92,7 @@ class SpaceshipScene: SKScene {
         if map[y][x] > 0 {
           let node = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(w, h))
           node.position = CGPoint(x: CGFloat(x) * w, y: CGFloat(y) * h)
-          self.addChild(node)
+          cam.addChild(node)
         }
       }
     }
@@ -90,7 +111,7 @@ class SpaceshipScene: SKScene {
 
   func addRock() -> SKSpriteNode {
     let rock = Rock(self.size)
-    addChild(rock)
+    cam.addChild(rock)
     return rock
   }
 
