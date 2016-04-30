@@ -19,68 +19,40 @@ class SpaceshipScene: SKScene {
 
   let map = [[1,1,1,1,1,1], [1,0,1,0,1,0], [0,1,0,1,0,1], [1,1,1,1,1,1]]
 
-  func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-
-    let old = CGPoint(x: cameraPosition.x, y: cameraPosition.y)
-
-    var x: CGFloat = 0
-    var y: CGFloat = 0
-
-    if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-
-      switch swipeGesture.direction {
-      case UISwipeGestureRecognizerDirection.Right:
-        x = 100
-      case UISwipeGestureRecognizerDirection.Down:
-        y = 100
-      case UISwipeGestureRecognizerDirection.Left:
-        x = -100
-      case UISwipeGestureRecognizerDirection.Up:
-        y = -100
-      default:
-        break
-      }
-    }
-
-    cameraPosition.x += x
-    cameraPosition.y += y
-
-    let camera = self.childNodeWithName("camera")!
-    camera.removeAllActions()
-    camera.runAction(SKAction.moveTo(cameraPosition, duration: distance(cameraPosition, destination: old) / heroSpeed))
-  }
-
   override func didMoveToView(view: SKView) {
     if !self.contentCreated {
       createSceneContents()
       self.contentCreated = true
     }
-
-    let directions: [UISwipeGestureRecognizerDirection] = [.Right, .Left, .Up, .Down]
-    for direction in directions {
-      let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(SpaceshipScene.respondToSwipeGesture(_:)))
-      swipeGesture.direction = direction
-      view.addGestureRecognizer(swipeGesture)
-    }
   }
 
-  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {return
-    let old = CGPoint(x: cameraPosition.x, y: cameraPosition.y)
+  override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    let camera = self.childNodeWithName("camera")!
+    camera.physicsBody!.velocity = CGVectorMake(0, 0)
+  }
 
+  override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
     let firstTouch = touches.first
     let point = (firstTouch?.locationInNode(self))!
 
-    print("\(point.x) \(point.y)")
-    cameraPosition.x += -point.x
-    cameraPosition.y += -point.y
-
+    print("moved \(point.x) \(point.y)")
     let camera = self.childNodeWithName("camera")!
-    camera.removeAllActions()
-    camera.runAction(SKAction.moveTo(cameraPosition, duration: distance(cameraPosition, destination: old) / heroSpeed))
+    camera.physicsBody!.velocity = CGVectorMake(-point.x, -point.y)
+  }
+
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    let firstTouch = touches.first
+    let point = (firstTouch?.locationInNode(self))!
+
+    print("started \(point.x) \(point.y)")
+    let camera = self.childNodeWithName("camera")!
+    camera.physicsBody!.velocity = CGVectorMake(-point.x, -point.y)
   }
 
   func createSceneContents() {
     let camera = SKNode()
+    camera.physicsBody = SKPhysicsBody()
+    camera.physicsBody!.affectedByGravity = false
     camera.name = "camera"
     camera.position = cameraPosition
     self.addChild(camera)
